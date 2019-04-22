@@ -45,15 +45,19 @@
     </style>
 </head>
 <body>
-        <h2>Select your train</h2>
         <?php
             require '../dbconfig.php';
             
             session_start();
-            if(!isset($_SESSION['name']) || !isset($_SESSION['email'])){
+            if(!isset($_SESSION['name']) || !isset($_SESSION['user_id'])){
                 header("Location: ../pages/login.html");
                 die();
             }
+            if(!isset($_POST['origin']) || !isset($_POST['destination'])){
+                header("Location: selectTrain.php");
+                die();
+            }
+
             $dbh = new PDO($dsn);
             if($_POST['origin'] && $_POST['destination']){
                 $es = $_POST["destination"]; 
@@ -65,6 +69,7 @@
                 $result = $stmt->fetchAll();
             }
         ?>
+        <h2>Select your train from <?php echo $_POST['origin'] ?> to <?php echo $_POST['destination'] ?></h2>
         <table id="Train" class="table" border = "3" frame = "all" rule = "groups">
             <thead>
                 <tr>
@@ -81,6 +86,11 @@
                 <?php endforeach;?>
             </tbody>
         </table><br>
+        <form method="POST" action="../pages/passengerDetails.php">
+            Book Train - <input type="number" name="train_id"/><br><br>
+            <input type = "submit" value="Book train">
+        </form><br>
+        <a href="../pages/viewBookings.php"><button>View Bookings</button></a><br><br>
         <a href="../server/logout.php"><button>Logout</button></a>
 
 </body>

@@ -14,7 +14,7 @@
             $stmt->execute();
             if($row = $stmt->fetch()){
                 $_SESSION['name'] = $row['user_name'];
-                $_SESSION['email'] = $row['email'];
+                $_SESSION['user_id'] = $row['user_id'];
                 header("Location: ../pages/selectTrain.php");
                 die();
             }else{

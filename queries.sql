@@ -40,8 +40,8 @@ Ticket_number SERIAL PRIMARY KEY,
 Type VARCHAR(25) NOT NULL, 
 Berth VARCHAR(25) NOT NULL, 
 Availability BOOL NOT NULL, 
-Waiting_list BOOL NOT NULL,
-Book BOOL NOT NULL,
+Waiting_list BOOL,
+Book BOOL,
 Train INT NOT NULL,
 FOREIGN KEY (Train) REFERENCES Train(Train_id)
 );
@@ -51,7 +51,7 @@ PNR SERIAL PRIMARY KEY,
 Name VARCHAR(25) NOT NULL, 
 Age INT NOT NULL, 
 Gender CHAR(1)  NOT NULL, 
-Status VARCHAR(25) NOT NULL,
+Status VARCHAR(25),
 Train INT NOT NULL,
 Booked_by INT NOT NULL,
 Ticket INT NOT NULL,
@@ -79,17 +79,17 @@ INSERT INTO person(user_name, age, email) values ('Ani', 23, 'e3@gmail.com');
 INSERT INTO person(user_name, age, email) values ('Gau', 22, 'e4@gmail.com');
 INSERT INTO person(user_name, age, email) values ('Pra', 21, 'e5@gmail.com');
 
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('abcdef', 23, 7, 'On Time', 1, 2, 1, '2019-06-01', 400);
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('agshss', 7, 5, 'Delayed', 1, 5, 4, '2019-08-07', 500);
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('hbfhuve', 15, 3, 'On Time', 2, 3, 2, '2019-09-10', 800);
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('hdvhj', 0, 2, 'On Time', 3, 5, 5, '2019-10-09', 900);
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('sdfsga', 10, 1, 'Delayed', 2, 4, 3, '2019-09-08', 300); 
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('abcdef', 23, 7, 'On Time', 1, 2, 1, '2019-06-01');
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('agshss', 7, 5, 'Delayed', 1, 5, 4, '2019-08-07');
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('hbfhuve', 15, 3, 'On Time', 2, 3, 2, '2019-09-10');
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('hdvhj', 0, 2, 'On Time', 3, 5, 5, '2019-10-09');
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('sdfsga', 10, 1, 'Delayed', 2, 4, 3, '2019-09-08'); 
 
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 1);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 2);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Middle', TRUE, FALSE, TRUE, 3);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 4);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 5);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train, price) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 1, 300);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train, price) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 2, 500);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train, price) values ('Sleeper', 'Middle', TRUE, FALSE, TRUE, 3, 800);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train, price) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 4, 900);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train, price) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 5, 1000);
 
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Ananya', 20, 'F',1, 'Seated', 1, 1);
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Aditya', 22, 'M', 2, 'Arriving Soon', 2, 2);

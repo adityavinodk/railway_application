@@ -1,20 +1,9 @@
 <?php
     session_start();
-    if(!isset($_SESSION['name']) || !isset($_SESSION['email'])){
+    if(!isset($_SESSION['name']) || !isset($_SESSION['user_id'])){
         header("Location: ../pages/login.html");
         die();
     }
-
-    function getTrains() {
-		$es = $_POST["destination"]; 
-		$ss = $_POST["origin"]; 
-		$sql = "SELECT Train_id, Train_name FROM Train WHERE End_station = $es AND Start_station=";
-		// $sql = "SELECT train_id, train_name, Total_time FROM Train INNER JOIN Route ON Train.Route = Route.Route_number WHERE Train.Start_station=$ss AND Train.End_station=$es"
-		$queryRecords = pg_query($this->conn, $sql) or die("error to fetch train data");
-		$data = pg_fetch_all($queryRecords);
-		echo $data;
-		return $data;
-	}
 ?>
 <!doctype html>
 <html lang="en">
@@ -69,6 +58,7 @@
             <input type = "text" name = "destination"><br><br>
             <input type = "submit" value="Enter trains">
         </form><br>
+        <a href="../pages/viewBookings.php"><button>View Bookings</button></a><br><br>
         <a href="../server/logout.php"><button>Logout</button></a>
     </body>
 </html>
