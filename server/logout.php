@@ -1,6 +1,6 @@
 <?php
     session_start();
     session_destroy();
-    header("Location: ../pages/signup.html");
+    header("Location: ../pages/login.html");
     die();
 ?>

@@ -54,6 +54,7 @@ Status VARCHAR(25) NOT NULL,
 Train INT NOT NULL,
 Booked_by INT NOT NULL,
 Ticket INT NOT NULL,
+Price INT NOT NULL,
 FOREIGN KEY (Train) REFERENCES Train(Train_id),
 FOREIGN KEY (Booked_by) REFERENCES Person(User_id),
 FOREIGN KEY (Ticket) REFERENCES Ticket(Ticket_number)
@@ -77,17 +78,17 @@ INSERT INTO person(user_name, age, email) values ('Ani', 23, 'e3@gmail.com');
 INSERT INTO person(user_name, age, email) values ('Gau', 22, 'e4@gmail.com');
 INSERT INTO person(user_name, age, email) values ('Pra', 21, 'e5@gmail.com');
 
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('abcdef', 23, 7, 'On Time', 1, 2, 1, '2019-06-01');
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('agshss', 7, 5, 'Delayed', 1, 5, 4, '2019-08-07');
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('hbfhuve', 15, 3, 'On Time', 2, 3, 2, '2019-09-10');
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('hdvhj', 0, 2, 'On Time', 3, 5, 5, '2019-10-09');
-INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date) values('sdfsga', 10, 1, 'Delayed', 2, 4, 3, '2019-09-08'); 
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('abcdef', 23, 7, 'On Time', 1, 2, 1, '2019-06-01', 400);
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('agshss', 7, 5, 'Delayed', 1, 5, 4, '2019-08-07', 500);
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('hbfhuve', 15, 3, 'On Time', 2, 3, 2, '2019-09-10', 800);
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('hdvhj', 0, 2, 'On Time', 3, 5, 5, '2019-10-09', 900);
+INSERT INTO train(train_name,seats_available,terminal_number,status, start_station, end_station, route, start_date, price) values('sdfsga', 10, 1, 'Delayed', 2, 4, 3, '2019-09-08', 300); 
 
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', FALSE, FALSE, TRUE, 1);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', FALSE, FALSE, TRUE, 2);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', FALSE, FALSE, TRUE, 3);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', FALSE, FALSE, TRUE, 4);
-INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', FALSE, FALSE, TRUE, 5);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 1);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 2);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Middle', TRUE, FALSE, TRUE, 3);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Lower', TRUE, FALSE, TRUE, 4);
+INSERT INTO ticket(type, berth, availability, waiting_list, book, train) values ('Sleeper', 'Upper', TRUE, FALSE, TRUE, 5);
 
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Ananya', 20, 'F',1, 'Seated', 1, 1);
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Aditya', 22, 'M', 2, 'Arriving Soon', 2, 2);
@@ -95,12 +96,12 @@ INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Neha', 15, 'F',3, 'Seated', 4, 4);
 INSERT INTO passenger(name, age, gender,train, status, booked_by, ticket) values('Anny', 18, 'F',5, 'Seated', 5,5);
 
-SELECT train_id, train_name, Total_time FROM Train INNER JOIN Route ON Train.Route = Route.Route_number;
+SELECT train_id, train_name, Total_time FROM Train INNER JOIN Route ON Train.Route = Route.Route_number WHERE Train.Start_station=1 AND Train.End_station=5;
 
-SELECT Train_id, Train_name FROM Train WHERE Route IN (SELECT Route_number FROM Route WHERE Total_time = '23:00:00');
+SELECT Distance as Distance, MIN(Total_time) as Total_time FROM Route WHERE Route_number IN (SELECT Route FROM Train WHERE Start_station=2 AND End_station=3) GROUP BY Distance;
 
-SELECT COUNT(Ticket_number), Type FROM Ticket GROUP BY Type ORDER BY Count(Ticket_number) DESC;
+SELECT COUNT(Ticket_number), Berth FROM Ticket WHERE Availability = TRUE GROUP BY Berth ORDER BY Count(Ticket_number) DESC;
 
-SELECT PNR, Name from Passenger INNER JOIN Ticket ON Passenger.Ticket = Ticket.Ticket_number WHERE Berth = 'Upper' AND Ticket.Train = 5;
+SELECT Train_id, Train_name, Terminal_number, Status, Route_number, Total_time, Number_of_stops, Ticket_number, Berth FROM Train INNER JOIN Route ON Train.Route = Route.Route_number INNER JOIN Ticket ON Train.Train_id = Ticket.Train WHERE Train_id=1;
 
-SELECT Train_name, Train_id FROM Train INNER JOIN Route ON Train.Route = Route.Route_number WHERE Seats_available > 10 AND Route = 2;
+SELECT SUM(Price), COUNT(PNR) from Ticket INNER JOIN Passenger ON Passenger.Ticket = Ticket.Ticket_number WHERE Passenger.Booked_by = 1;
