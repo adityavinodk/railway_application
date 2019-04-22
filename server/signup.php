@@ -19,7 +19,7 @@
             if($stmt->execute($data)){
                 $_SESSION['name'] = $name;
                 $_SESSION['email'] = $email;
-                header("Location: ../pages/home.php");
+                header("Location: ../pages/selectTrain.php");
                 die();
             }else{
                 echo "Insert didn't work";

@@ -48,7 +48,12 @@
         <h2>Select your train</h2>
         <?php
             require '../dbconfig.php';
+            
             session_start();
+            if(!isset($_SESSION['name']) || !isset($_SESSION['email'])){
+                header("Location: ../pages/login.html");
+                die();
+            }
             $dbh = new PDO($dsn);
             if($_POST['origin'] && $_POST['destination']){
                 $es = $_POST["destination"]; 
@@ -75,8 +80,8 @@
                     </tr>
                 <?php endforeach;?>
             </tbody>
-        </table>
-        
+        </table><br>
+        <a href="../server/logout.php"><button>Logout</button></a>
 
 </body>
 </html>

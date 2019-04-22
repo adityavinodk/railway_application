@@ -15,7 +15,7 @@
             if($row = $stmt->fetch()){
                 $_SESSION['name'] = $row['user_name'];
                 $_SESSION['email'] = $row['email'];
-                header("Location: ../pages/home.php");
+                header("Location: ../pages/selectTrain.php");
                 die();
             }else{
                 echo "No such user found";

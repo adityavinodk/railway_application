@@ -62,12 +62,13 @@
     </head>
     <body>
         <h1>Select Date and Destination</h1>
-        <form action = "../pages/homepage.php" method="POST">
+        <form action = "../pages/viewTrains.php" method="POST">
             Enter Origin:<br>
             <input type = "text" name = "origin"><br><br>
             Enter Destination:<br>
             <input type = "text" name = "destination"><br><br>
             <input type = "submit" value="Enter trains">
-        </form>
+        </form><br>
+        <a href="../server/logout.php"><button>Logout</button></a>
     </body>
 </html>
