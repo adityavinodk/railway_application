@@ -62,34 +62,58 @@
             if($_POST['origin'] && $_POST['destination']){
                 $es = $_POST["destination"]; 
                 $ss = $_POST["origin"]; 
-                $stmt = $dbh->prepare("SELECT Train_id, Train_name FROM Train WHERE End_station = :es AND Start_station=:ss");
-                $stmt->bindParam(':es', $es);
+                $stmt = $dbh->prepare("SELECT station_id from Station WHERE Station_name=:ss");
                 $stmt->bindParam(':ss', $ss);
                 $stmt->execute();
                 $result = $stmt->fetchAll();
+                if($result){
+                    foreach ($result as $key => $station) {
+                        $origin = $station['station_id'];
+                    }
+                    $stmt2 = $dbh->prepare("SELECT station_id from Station WHERE Station_name=:es");
+                    $stmt2->bindParam(':es', $es);
+                    $stmt2->execute();
+                    $result2 = $stmt2->fetchAll();
+                    if($result2){
+                        foreach ($result2 as $key => $station) {
+                            $destination = $station['station_id'];
+                        }
+                        $stmt = $dbh->prepare("SELECT Train_id, Train_name FROM Train WHERE End_station = :es AND Start_station=:ss");
+                        $stmt->bindParam(':es', $destination);
+                        $stmt->bindParam(':ss', $origin);
+                        $stmt->execute();
+                        $result = $stmt->fetchAll();
+                    }
+                }
+
+                
             }
         ?>
         <h2>Select your train from <?php echo $_POST['origin'] ?> to <?php echo $_POST['destination'] ?></h2>
-        <table id="Train" class="table" border = "3" frame = "all" rule = "groups">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>`
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($result as $key=>$train) :?>
+        <?php if($result): ?>
+            <table id="Train" class="table" border = "3" frame = "all" rule = "groups">
+                <thead>
                     <tr>
-                        <td><?php echo $train['train_id'] ?></td>
-                        <td><?php echo $train['train_name'] ?></td>
+                        <th>ID</th>
+                        <th>Name</th>`
                     </tr>
-                <?php endforeach;?>
-            </tbody>
-        </table><br>
-        <form method="POST" action="../pages/passengerDetails.php">
-            Book Train - <input type="number" name="train_id"/><br><br>
-            <input type = "submit" value="Book train">
-        </form><br>
+                </thead>
+                <tbody>
+                    <?php foreach($result as $key=>$train) :?>
+                        <tr>
+                            <td><?php echo $train['train_id'] ?></td>
+                            <td><?php echo $train['train_name'] ?></td>
+                        </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table><br>
+            <form method="POST" action="../pages/passengerDetails.php">
+                Book Train - <input type="number" name="train_id"/><br><br>
+                <input type = "submit" value="Book train">
+            </form><br>
+        <?php else: ?>
+            <h2> No Trains Found </h2><br><br>
+        <?php endif ?>
         <a href="../pages/viewBookings.php"><button>View Bookings</button></a><br><br>
         <a href="../server/logout.php"><button>Logout</button></a>
 

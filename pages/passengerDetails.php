@@ -50,7 +50,6 @@
     </style>
     </head>
     <body>
-        <h1>Available Tickets for Train <?php echo $_POST['train_id']; ?></h1>
         <?php
             require '../dbconfig.php';
 
@@ -66,43 +65,48 @@
                 die();
             }
         ?>
-        <table id="Ticket" class="table" border = "3" frame = "all" rule = "groups">
-            <thead>
-                <tr>
-                    <th>Ticket Number</th>
-                    <th>Type</th>
-                    <th>Berth</th>
-                    <th>Availability</th>
-                    <th>Price</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($result as $key=>$ticket) :?>
+        <?php if($result): ?>
+            <h1>Available Tickets for Train <?php echo $_POST['train_id']; ?></h1>
+            <table id="Ticket" class="table" border = "3" frame = "all" rule = "groups">
+                <thead>
                     <tr>
-                        <td><?php echo $ticket['ticket_number'] ?></td>
-                        <td><?php echo $ticket['type'] ?></td>
-                        <td><?php echo $ticket['berth'] ?></td>
-                        <td><?php if($ticket['availability']){echo "Available";} else{echo "Not Available";} ?></td>
-                        <td><?php echo $ticket['price'] ?></td>
+                        <th>Ticket Number</th>
+                        <th>Type</th>
+                        <th>Berth</th>
+                        <th>Availability</th>
+                        <th>Price</th>
                     </tr>
-                <?php endforeach;?>
-            </tbody>
-        </table><br><br>
-        <h3>Enter Passenger Details</h3>
-        <form action = "../server/addPassenger.php" method="POST">
-            Enter Ticket Number<br>
-            <input type = "number" name = "ticket_number" required><br><br>
-            Enter Passenger Name<br>
-            <input type = "text" name = "pass_name" required><br><br>
-            Enter Passenger Age<br>
-            <input type = "number" name = "pass_age" required><br><br>
-            Enter Passenger Gender<br>
-            <select name='gender'> 
-                <option value="M" default>Male</option>
-                <option value="F">Female</option>
-            </select><br><br>
-            <input type = "submit" value="Book Ticket">
-        </form><br>
+                </thead>
+                <tbody>
+                    <?php foreach($result as $key=>$ticket) :?>
+                        <tr>
+                            <td><?php echo $ticket['ticket_number'] ?></td>
+                            <td><?php echo $ticket['type'] ?></td>
+                            <td><?php echo $ticket['berth'] ?></td>
+                            <td><?php if($ticket['availability']){echo "Available";} else{echo "Not Available";} ?></td>
+                            <td><?php echo $ticket['price'] ?></td>
+                        </tr>
+                    <?php endforeach;?>
+                </tbody>
+            </table><br><br>
+            <h3>Enter Passenger Details</h3>
+            <form action = "../server/addPassenger.php" method="POST">
+                Enter Ticket Number<br>
+                <input type = "number" name = "ticket_number" required><br><br>
+                Enter Passenger Name<br>
+                <input type = "text" name = "pass_name" required><br><br>
+                Enter Passenger Age<br>
+                <input type = "number" name = "pass_age" required><br><br>
+                Enter Passenger Gender<br>
+                <select name='gender'> 
+                    <option value="M" default>Male</option>
+                    <option value="F">Female</option>
+                </select><br><br>
+                <input type = "submit" value="Book Ticket">
+            </form><br>
+        <?php else: ?>
+            <h1>No Tickets available</h1>
+        <?php endif ?>
         <a href="../server/logout.php"><button>Logout</button></a>
     </body>
 </html>
