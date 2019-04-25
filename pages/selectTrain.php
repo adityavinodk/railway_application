@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Homepage</title>
+    <title>Select Trains</title>
 
 
 
@@ -50,7 +50,7 @@
     </style>
     </head>
     <body>
-        <h1>Select Date and Destination</h1>
+        <h1>Select Origin and Destination</h1>
         <form action = "../pages/viewTrains.php" method="POST">
             Enter Origin:<br>
             <input type = "text" name = "origin"><br><br>

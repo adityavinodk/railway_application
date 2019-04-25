@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Homepage</title>
+    <title>Select Passenger Details</title>
 
 
 
@@ -107,6 +107,7 @@
         <?php else: ?>
             <h1>No Tickets available</h1>
         <?php endif ?>
+        <a href="../pages/viewBookings.php"><button>View Bookings</button></a><br><br>
         <a href="../server/logout.php"><button>Logout</button></a>
     </body>
 </html>

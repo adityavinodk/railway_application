@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Homepage</title>
+    <title>View Trains</title>
 
 
 
@@ -108,7 +108,7 @@
                 </tbody>
             </table><br>
             <form method="POST" action="../pages/passengerDetails.php">
-                Book Train - <input type="number" name="train_id"/><br><br>
+                Book By Train ID - <input type="number" name="train_id"/><br><br>
                 <input type = "submit" value="Book train">
             </form><br>
         <?php else: ?>

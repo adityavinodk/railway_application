@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="generator" content="Jekyll v3.8.5">
-    <title>Homepage</title>
+    <title>View Bookings</title>
 
 
 
@@ -59,11 +59,19 @@
             $stmt->bindParam(':u_id', $_SESSION['user_id']);
             $stmt->execute();
             $result = $stmt->fetchAll();
+            $totalPrice = 0;
+            foreach($result as $key=>$ticket){
+                $totalPrice+=$ticket['price'];
+            }
 
             $stmt2 = $dbh->prepare("SELECT Ticket, Name, Age, Gender FROM Passenger WHERE Booked_by=:u_id");
             $stmt2->bindParam(':u_id', $_SESSION['user_id']);
             $stmt2->execute();
             $result2 = $stmt2->fetchAll();
+            $totalPassengers = 0;
+            foreach($result2 as $key=>$passenger){
+                $totalPassengers+=1;
+            }
         ?>
         <?php if($result): ?>
             <h2> Tickets Booked </h2>
@@ -85,6 +93,10 @@
                             <td><?php echo $ticket['price'] ?></td>
                         </tr>
                     <?php endforeach;?>
+                    <tr>
+                        <td colspan=3 > Total Price </td>
+                        <td> <?php echo $totalPrice ?> </td>
+                    </tr>
                 </tbody>
             </table><br>
             <h2> Passenger Details </h2>
@@ -106,8 +118,17 @@
                             <td><?php echo $passenger['gender'] ?></td>
                         </tr>
                     <?php endforeach;?>
+                    <tr>
+                        <td colspan=3 > Total Passengers </td>
+                        <td> <?php echo $totalPassengers ?> </td>
+                    </tr>
                 </tbody>
             </table><br>
+            <h3>Book More Tickets</h3>
+            <form method="POST" action="passengerDetails.php">
+                <input type="hidden" name="train_id" value="<?php echo $_SESSION['train_id'] ?>">
+                <input type = "submit" value="Book More Tickets">
+            </form><br><br>
             <h3>Delete Ticket</h3>
             <form method="POST" action="../server/deleteTicket.php">
                 <input type="number" name="ticket_number" required><br><br>
@@ -131,11 +152,6 @@
         <?php else: ?>
         <h2> No Tickets Booked </h2><br><br>
         <?php endif; ?>
-        <h3>Book More Tickets</h3>
-        <form method="POST" action="passengerDetails.php">
-            <input type="hidden" name="train_id" value="<?php echo $_SESSION['train_id'] ?>">
-            <input type = "submit" value="Book More Tickets">
-        </form><br><br>
         <a href="../server/logout.php"><button>Logout</button></a>
     </body>
 </html>
